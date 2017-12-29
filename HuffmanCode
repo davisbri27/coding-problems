@@ -4,8 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 /**
- * Reads the input and prints out the different answers according to the input desires.
- @author Briona Davis
+* Compute a Huffman Code for a given text and use it to compress that text.
+*
+* The first line of input will contain one character indicating the result to display as follows:
+* F: Display the frequency count for the characters in the text.
+* T: Display the key,value pairs of the nodes in the final tree in level order.
+* H: Display the Huffman Code table for the characters in the text.
+* M: The original text encoded using the Huffman Code.
+*
+* Input Format
+*
+* The first line of the input will contain a single character from [F,T,H,M].
+* The remaining lines of text are the text from which to compute the Huffman Code. There is no specified limit to the number 
+* of lines of text or to the length of the lines. However, each line can be read using a Scanner. Each line, except for the 
+* final line of text will be terminated with a newline (\n) character. The text will contain only characters with ASCII values
+* of 9 (tab), 10 (newline) and between 32-126 inclusive.
+*
+* Reads the input and prints out the different answers according to the input desires.
+@author Briona Davis
  
  */
 
