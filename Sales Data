@@ -23,7 +23,7 @@ import CS232LinkedBinaryTree.BTNode;
 * recent sales. G: get the total amount of sales in the k days starting on a
 * given date. R: get the total amount of all sales within a range of dates.
 * 
-* @author Briona Davis, Andy Guo
+* @author Briona Davis
 *
 */
 public class SalesData {
