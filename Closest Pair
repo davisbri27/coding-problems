@@ -1,0 +1,184 @@
+import java.util.ArrayList;
+
+import java.util.Comparator;
+import java.util.Scanner;
+
+/**
+* Given a set of points in a plane, find the squared distance of the closest pair of points.
+*
+* Input Format
+* The first line will be an integer n, the total number of points. The next n lines will have the x,y coordinates 
+* of the points.
+*
+*@author Briona Davis
+*
+*/
+
+
+public class CPair {
+
+	
+    private static ArrayList<Point> p;
+	private static ArrayList<Point> q;
+
+	
+
+	public CPair(){
+		p.sort(new XComparator());
+		q.sort(new YComparator());
+
+	}
+
+
+	public static void main(String[] args) {
+		Scanner scr= new Scanner(System.in);
+		int n= scr.nextInt();
+		p = new ArrayList<Point>(); //will be sorted in increasing order of x coordinates
+		q= new ArrayList<Point>(); //will be sorted in increasing order of y coordinates
+
+
+		//add the points into both arrays
+		for(int i=0; i< n; i++){
+			int x= scr.nextInt();
+			int y= scr.nextInt();
+			Point curP= new Point(x,y);
+			p.add(curP); 
+			q.add(curP); 
+		}
+		
+		CPair s= new CPair();
+		System.out.println(s.cp(p,q)); 
+		
+		
+		scr.close();
+	}
+
+
+	private long cp(ArrayList<Point> p, ArrayList<Point> q) {
+		if(p.size()<=3){
+			//return closest pair with brute force
+			long a=bf(p);
+			//System.out.println("base case: " + a);
+			return a;
+		}else{
+   
+	
+
+			
+			ArrayList<Point>pl= new ArrayList<Point>(p.subList(0, p.size()/2));
+			ArrayList<Point>ql= new ArrayList<Point>(q.subList(0, q.size()/2));
+
+			ArrayList<Point> pr= new ArrayList<Point>(p.subList(p.size()/2, p.size()));
+			ArrayList<Point> qr= new ArrayList<Point>(q.subList(q.size()/2, q.size()));
+
+			long dl= cp(pl,ql);
+			long dr= cp(pr,qr);
+			long d= Math.min(dl, dr);
+			//System.out.println(d);
+			long m= p.get((p.size()/2)-1).getX();
+			
+            ArrayList<Point> s= new ArrayList<Point>();
+
+			for(int i=0; i< q.size(); i++){
+				long curX= q.get(i).getX();
+				if(Math.abs(curX-m)< d){
+					s.add(q.get(i));
+				}
+			}
+
+			//long dminsq= d;
+
+			int num= s.size()-1;
+			for(int i=0; i< num-2; i++){ 
+				int k= i+1;
+				while(k<= num-1 && Math.pow(s.get(k).getY()- s.get(i).getY(),2) < d){
+					d= (int) Math.min(Math.pow(s.get(k).getX()-s.get(i).getX(),2)+ Math.pow(s.get(k).getY()-s.get(i).getY(),2), d);
+					k++;
+				}
+
+			}
+
+			
+			return d;
+		}
+
+	}
+
+
+	
+	private static long bf(ArrayList<Point> p2) {
+		long min=Integer.MAX_VALUE;
+		for(int i=0; i< p2.size(); i++){
+			for(int j=i+1; j< p2.size(); j++){
+				Point point1= p2.get(i);
+				Point point2= p2.get(j);
+				//distance formula
+				long calc=(int) (Math.pow(point2.getX()-point1.getX(),2)+ Math.pow(point2.getY()-point1.getY(), 2));
+				
+				
+				if(calc< min){
+					min=calc;
+				}
+			}
+		}
+		
+		return min;
+	}
+
+
+
+	static private class Point{
+		private long x;
+		private long y;
+
+		public Point(long initX, long initY){
+			x=initX;
+			y=initY;
+		}
+
+		public long getX(){
+			return x;
+		}
+
+		public long getY(){
+			return y;
+		}
+
+
+	}
+
+
+	private class XComparator implements Comparator<Point>{
+
+		@Override
+		public int compare(Point p1, Point p2) {
+
+			if(p1.getX()< p2.getX()){
+				return -1;
+			}else if(p1.getX()> p2.getX()){
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+	}
+
+	private class YComparator implements Comparator<Point>{
+
+		@Override
+		public int compare(Point p1, Point p2) {
+
+			if(p1.getY()< p2.getY()){
+				return -1;
+			}else if(p1.getY()> p2.getY()){
+				return 1;
+			}else{
+				return 0;
+			}
+		}
+	}
+
+
+
+
+}
