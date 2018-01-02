@@ -1,6 +1,22 @@
 import java.io.*;
 import java.util.*;
 
+/**
+*Solve the knapsack problem using brute force
+*
+* Input Format
+* The first line will be the number of items. The second line will be the total permissable weight. The third line will be the list of weights. The fourth line will be the list of values.
+*
+* Constraints
+* Total items will be 20 or less. Weights and values will be less than 10^8.
+*
+* Output Format
+* Output a single number which is the total value of the best combination of items with weight less than the total weight.
+*
+* @author Briona
+*/
+
+
 public class Knapsack {
     private static int n; //number of items
     private static long capacity; 
