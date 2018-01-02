@@ -1,0 +1,51 @@
+import java.io.*;
+import java.util.*;
+
+public class Knapsack {
+    private static int n; //number of items
+    private static long capacity; 
+    private long[] weights;
+    private long[] vals;
+    
+    
+   public void readFile(){
+       Scanner scr= new Scanner(System.in);
+       n= scr.nextInt();
+       capacity= scr.nextLong();
+       weights= new long[n];
+       vals= new long [n];
+       
+       for(int i=0; i<n; i++){
+          weights[i]= scr.nextLong();
+       }
+       for(int j=0; j<n; j++){
+          vals[j]= scr.nextLong();
+       }
+       scr.close();
+   }
+    
+    
+    public long knapsack(int itemsLeft, long capacityLeft){
+        if(itemsLeft<0){
+            return 0;
+        }
+        else if(capacityLeft-weights[itemsLeft]<=0) {
+            return 0;
+        }else{
+            
+            long leaveVal= knapsack(itemsLeft-1, capacityLeft);
+            long takeVal= vals[itemsLeft] + knapsack(itemsLeft-1, capacityLeft- weights[itemsLeft]);
+            return Math.max(takeVal, leaveVal);   
+        }
+    }
+    
+    
+     
+    
+    public static void main(String[] args) {
+    
+       Knapsack s= new Knapsack();
+        s.readFile();
+        System.out.print(s.knapsack(n-1, capacity));
+    }
+}
