@@ -1,0 +1,108 @@
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+* Gregory is going Trick-or-Treating. At each house, he plans to grab as much of the candy as he can and run off 
+* before anyone can catch him. Unfortuneately, each time he grabs the candy, the shouting of the person handing out 
+* the candy warns the next house. Since they know he is coming, Gregory cannot get any candy from that house. A street
+* of houses is represented by an array of integers, where each integer is the amount of candy Gregory can get from that
+*  house if it has not been warned. Devise an algorithm to compute the most candy Gregory can get from the street.
+*
+* Input Format
+* The first line of the input will be an integer n, where n is the number of houses. The next line is the amount of candy 
+* obtainable from those n houses.
+*
+* Constraints
+* 1 <= n <= 10^5 1 <= candy per house <= 10^9
+*
+* Output Format
+* The first line of the output should be a single integer designating the total candy Gregory can obtain. The second 
+* line should be a list of the indices of the houses Gregory should take candy from.
+*
+*@author Briona
+*/
+
+
+public class Candy {
+	private static long n;
+	private static long[] coins;
+	private static long[] max;
+	private static ArrayList<Long>ind;
+
+
+	public Candy(){
+
+	}
+
+
+	public static void main(String[] args) {
+		Scanner scr= new Scanner(System.in);
+		n= scr.nextLong();
+		n++;
+		coins= new long[(int) n];
+		max= new long[(int) n];
+		ind= new ArrayList<Long>();
+
+
+		coins[0]=0;
+		for(int i=1; i< n; i++){
+			coins[i]= scr.nextLong();
+		}
+
+		Candy s= new Candy();
+
+		System.out.print(s.coinRow());
+		System.out.println();
+
+		s.getInd();
+		ArrayList<Long> newL= s.listInd();
+
+		for(int i=newL.size()-1; i>=0; i--){
+			System.out.print(newL.get(i)+ " ");
+		}
+	}
+
+
+
+	public long coinRow(){
+		max[0]=0;
+		max[1]= coins[1];
+
+		for(long i=2; i<n; i++){ 
+			max[(int) i]= Math.max(coins[(int) i]+ max[(int) (i-2)], max[(int) (i-1)]);
+		}
+		return max[(int) (n-1)];
+	}
+
+
+
+	public void getInd(){
+
+		for(int i=1; i< max.length; i++){
+			if(max[i]>max[i-1]){
+				ind.add((long) 1); //why
+			}else{
+				ind.add((long) 0);
+			}
+		}
+	}
+
+
+	public ArrayList<Long> listInd(){
+		ArrayList<Long> list= new ArrayList<Long>();
+		long i= ind.size()-1;
+		while(i>=0){
+			if(ind.get((int) i)==1){
+				list.add(i);
+				i=i-2;
+			}else{ //==0
+				list.add(i-1);
+				i=i-3;
+			}
+		}
+		return list;
+	}
+
+
+}
